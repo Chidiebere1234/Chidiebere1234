@@ -3,6 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from .engines.models.model import db
 from flask_cors import (CORS, cross_origin)
 from flask_jwt_extended import JWTManager
+from flask_migrate import Migrate
 
 
 def create_app() -> Flask:
@@ -29,6 +30,9 @@ def create_app() -> Flask:
 
     # Initialize JWT manager
     jwt = JWTManager(app)
+
+    # Migrate App
+    migrate = Migrate(app, db)
 
     # Initialize the database
     db.init_app(app)
