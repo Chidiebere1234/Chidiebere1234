@@ -1,7 +1,7 @@
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import DeclarativeBase
 from datetime import datetime
-from models.model import User
+from .model import User
 from uuid import uuid4
 
 
@@ -18,7 +18,7 @@ def get_uuid():
 # Loan model
 class Loan(db.Model):
     __tablename__ = 'loans'
-    id = db.Column(db.String(30), uuid4().hex, primary_key=True, nullable=False)
+    id = db.Column(db.String(30), primary_key=True, default=get_uuid, nullable=False)
     user_id = db.Column(db.String(32), db.ForeignKey('users.id'), nullable=False)
     user = db.relationship('User', backref=db.backref('loans', lazy=True))
     amount = db.Column(db.Float, nullable=False)
@@ -52,7 +52,7 @@ class LoanPayment(db.Model):
 # Lender model
 class Lender(db.Model):
     __tablename__ = 'lenders'
-    id = db.Column(db.String(30), uuid4().hex, primary_key=True, nullable=False)
+    id = db.Column(db.String(30), primary_key=True, default=get_uuid, nullable=False)
     user_id = db.Column(db.String(32), db.ForeignKey('users.id'), nullable=False)
     user = db.relationship('User', backref=db.backref('lenders', lazy=True))
     name = db.Column(db.String(80), nullable=False)

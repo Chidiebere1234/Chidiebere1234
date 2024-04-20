@@ -3,7 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from engines.models.model import db
 from engines.models.account import db as account_db
 from engines.models.chats import db as chats_db
-from engines.models.notifications import db as notif_db
+from engines.models.notification import db as notif_db
 from engines.models.borrower import db as borrow_db
 from flask_cors import (CORS, cross_origin)
 from flask_jwt_extended import JWTManager
@@ -33,8 +33,8 @@ def create_app() -> Flask:
     # Migrate App
     migrate = Migrate(app, db)
 
-    # Register All Models
-    model_files = [db, borrow_db, chats_db, account_db, notif_db]
+    # Register All Models [This method of creating databases from multiple files is not working yet
+    # model_files = [db, borrow_db, chats_db, account_db, notif_db]
     # db.init_app(app, model_files=model_files)
 
     # Initialize the database
