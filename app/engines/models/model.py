@@ -70,7 +70,7 @@ class User(db.Model):
 
 class UserRole(db.Model):
     __tablename__ = 'user_role'
-    __table_args__ = (db.UniqueConstraint('user_id', 'role', name='unique_user_role'))
+    # __table_args__ = (db.UniqueConstraint('user_id', 'role', name='unique_user_role')) Error: This has to be tuple()
     id = db.Column(uuid4().hex, primary_key=True, nullable=False)
     user_id = db.Column(db.String(32), db.ForeignKey('users.id'), nullable=False)
     user = db.relationship('User', backref=db.backref('roles', lazy=True))

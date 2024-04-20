@@ -1,6 +1,6 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-from models.model import db
+from .engines.models.model import db
 from flask_cors import (CORS, cross_origin)
 from flask_jwt_extended import JWTManager
 
