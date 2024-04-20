@@ -1,4 +1,4 @@
-from engine.models.model import User, db
+from models.model import User, db
 from datetime import datetime
 from uuid import uuid4
 
