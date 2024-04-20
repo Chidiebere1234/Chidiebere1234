@@ -1,6 +1,6 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-from .engines.models.model import db
+from engines.models.model import db
 from flask_cors import (CORS, cross_origin)
 from flask_jwt_extended import JWTManager
 from flask_migrate import Migrate
@@ -17,8 +17,7 @@ def create_app() -> Flask:
 
     CORS(app, resources={r"/api/*": {"origins": "*"}})
 
-    # Load configuration from config.py
-    # app.config.from_object('config.config') # This buggy and unnecessary from the original code but I wont remove it
+    # Database Configuration
     app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://dev_test:DevLog#1@localhost/iwallet_fcmb_db'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.config['SQLALCHEMY_ECHO'] = False
@@ -28,8 +27,6 @@ def create_app() -> Flask:
     app.config['JWT_BLACKLIST_ENABLED'] = True
     app.config['JWT_BLACKLIST_TOKEN_CHECKS'] = ['access']
 
-    # Initialize JWT manager
-    jwt = JWTManager(app)
 
     # Migrate App
     migrate = Migrate(app, db)
@@ -72,3 +69,5 @@ def create_app() -> Flask:
     app.register_blueprint(notifications_bp, url_prefix='/notifications')
 
     return app
+
+# app = create_app()

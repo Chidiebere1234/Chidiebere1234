@@ -2,13 +2,17 @@ from werkzeug.middleware.proxy_fix import ProxyFix
 from flask import Flask, jsonify, abort, request
 from werkzeug.exceptions import HTTPException
 from flask_cors import (CORS, cross_origin)
-from app import create_app
+from flask_jwt_extended import JWTManager
+from api.app import create_app
 from os import getenv
 import os
 
 
 # Run App
 app = create_app()
+
+# Initialize JWT manager
+jwt = JWTManager(app)
 
 @app.route('/status', methods=['GET'], strict_slashes=False)
 def status() -> str:

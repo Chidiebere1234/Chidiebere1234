@@ -1,4 +1,4 @@
-from models.model import User, db
+from models.model import db, User
 from datetime import datetime
 from uuid import uuid4
 
@@ -19,7 +19,6 @@ class Account(db.Model):
     updated_at = db.Column(db.DateTime, default=db.func.current_timestamp(), onupdate=db.func.current_timestamp())
 
 
-    def __init__(self, account_number, balance)
     def deposit(self, amount):
         pass
 
