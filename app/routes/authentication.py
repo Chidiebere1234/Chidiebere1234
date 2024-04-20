@@ -2,7 +2,7 @@
 from flask import request
 from flask import Blueprint
 from flask import jsonify, abort
-from engine.models.model import User
+from app.engines.models.model import User
 from werkzeug.security import check_password_hash
 from flask_jwt_extended import create_access_token
 from flask_jwt_extended import get_jwt_identity
