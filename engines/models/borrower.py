@@ -1,6 +1,14 @@
-from models.model import db, User
+from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.orm import DeclarativeBase
 from datetime import datetime
+from models.model import User
 from uuid import uuid4
+
+
+class Base(DeclarativeBase):
+  pass
+
+db = SQLAlchemy(model_class=Base)
 
 
 def get_uuid():
