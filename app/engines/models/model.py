@@ -13,7 +13,7 @@ db = SQLAlchemy(model_class=Base)
 
 # User model for authentication
 class User(db.Model):
-    __tablename__ = 'users'
+    # __tablename__ = 'users'
     id = db.Column(uuid4().hex, primary_key=True, nullable=False)
     first_name = db.Column(db.String(128), nullable=True)
     last_name = db.Column(db.String(128), nullable=True)
@@ -72,7 +72,7 @@ class UserRole(db.Model):
     __tablename__ = 'user_role'
     # __table_args__ = (db.UniqueConstraint('user_id', 'role', name='unique_user_role')) Error: This has to be tuple()
     id = db.Column(uuid4().hex, primary_key=True, nullable=False)
-    user_id = db.Column(db.String(32), db.ForeignKey('users.id'), nullable=False)
+    user_id = db.Column(db.String(32), db.ForeignKey('user.id'), nullable=False)
     user = db.relationship('User', backref=db.backref('roles', lazy=True))
     role = db.Column(db.String(128), nullable=False)
     created_at = db.Column(db.DateTime, default=db.func.current_timestamp())
