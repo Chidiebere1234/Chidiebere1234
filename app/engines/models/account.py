@@ -3,9 +3,13 @@ from datetime import datetime
 from uuid import uuid4
 
 
+def get_uuid():
+    return uuid4().hex
+
+
 class Account(db.Model):
     __tablename__ = 'accounts'
-    id = db.Column(db.String(30), uuid4().hex, primary_key=True, nullable=False)
+    id = db.Column(db.String(30), primary_key=True, default=get_uuid, nullable=False)
     user_id = db.Column(db.String(32), db.ForeignKey('users.id'), nullable=False)
     user = db.relationship('User', backref=db.backref('accounts', lazy=True))
     account_number = db.Column(db.String(20), unique=True, nullable=False)
@@ -31,7 +35,7 @@ class Account(db.Model):
 # Transaction History
 class Transaction(db.Model):
     __tablename__ = 'transactions'
-    id = db.Column(db.String(30), uuid4().hex, primary_key=True, nullable=False)
+    id = db.Column(db.String(30), primary_key=True, default=get_uuid, nullable=False)
     amount = db.Column(db.Float, nullable=False)
     user_id = db.Column(db.String(32), db.ForeignKey('users.id'), nullable=False)
     user = db.relationship('User', backref=db.backref('transactions', lazy=True))

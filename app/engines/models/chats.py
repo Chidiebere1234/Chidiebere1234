@@ -3,10 +3,14 @@ from datetime import datetime
 from uuid import uuid4
 
 
+def get_uuid():
+    return uuid4().hex
+
+
 # Dispute model
 class Dispute(db.Model):
     __tablename__ = 'disputes'
-    id = db.Column(db.String(30), uuid4().hex, primary_key=True, nullable=False)
+    id = db.Column(db.String(30), primary_key=True, default=get_uuid, nullable=False)
     user_id = db.Column(db.String(32), db.ForeignKey('users.id'), nullable=False)
     user = db.relationship('User', backref=db.backref('disputes', lazy=True))
     category = db.Column(db.String(100), nullable=True)

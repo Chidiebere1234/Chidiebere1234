@@ -3,6 +3,10 @@ from datetime import datetime
 from uuid import uuid4
 
 
+def get_uuid():
+    return uuid4().hex
+
+
 # Loan model
 class Loan(db.Model):
     __tablename__ = 'loans'
@@ -24,7 +28,7 @@ class Loan(db.Model):
 # Loan Payment model
 class LoanPayment(db.Model):
     __tablename__ = 'loan_payments'
-    id = db.Column(db.String(30), uuid4().hex, primary_key=True, nullable=False)
+    id = db.Column(db.String(30), primary_key=True, default=get_uuid, nullable=False)
     user_id = db.Column(db.String(32), db.ForeignKey('users.id'), nullable=False)
     user = db.relationship('User', backref=db.backref('loan_payments', lazy=True))
     loan_id = db.Column(db.ForeignKey('loans.id'), nullable=False)

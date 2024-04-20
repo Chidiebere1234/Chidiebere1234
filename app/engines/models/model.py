@@ -11,10 +11,13 @@ class Base(DeclarativeBase):
 db = SQLAlchemy(model_class=Base)
 
 
+def get_uuid():
+    return uuid4().hex
+
 # User model for authentication
 class User(db.Model):
     __tablename__ = 'users'
-    id = db.Column(db.String(30), uuid4().hex, primary_key=True, nullable=False)
+    id = db.Column(db.String(30), primary_key=True, default=get_uuid, nullable=False)
     first_name = db.Column(db.String(128), nullable=True)
     last_name = db.Column(db.String(128), nullable=True)
     other_name = db.Column(db.String(128), nullable=True)
@@ -70,7 +73,7 @@ class User(db.Model):
 class UserRole(db.Model):
     __tablename__ = 'user_role'
     # __table_args__ = (db.UniqueConstraint('user_id', 'role', name='unique_user_role')) Error: This has to be tuple()
-    id = db.Column(db.String(30), uuid4().hex, primary_key=True, nullable=False)
+    id = db.Column(db.String(30), primary_key=True, default=get_uuid, nullable=False)
     user_id = db.Column(db.String(32), db.ForeignKey('users.id'), nullable=False)
     user = db.relationship('User', backref=db.backref('roles', lazy=True))
     role = db.Column(db.String(128), nullable=False)
@@ -93,7 +96,7 @@ class UserRole(db.Model):
 
 class UserImage(db.Model):
     __tablename__ = 'user_image'
-    id = db.Column(db.String(30), uuid4().hex, primary_key=True, nullable=False)
+    id = db.Column(db.String(30), primary_key=True, default=get_uuid, nullable=False)
     user_id = db.Column(db.String(32), db.ForeignKey('users.id'), nullable=False)
     user = db.relationship('User', backref=db.backref('images', lazy=True))
     image_url = db.Column(db.String(2048), nullable=True)
@@ -103,7 +106,7 @@ class UserImage(db.Model):
 
 class BVN(db.Model):
     __tablename__ = 'bvn'
-    id = db.Column(db.String(30), uuid4().hex, primary_key=True, nullable=False)
+    id = db.Column(db.String(30), primary_key=True, default=get_uuid, nullable=False)
     user_id = db.Column(db.String(32), db.ForeignKey('users.id'), nullable=False)
     user = db.relationship('User', backref=db.backref('bvn', lazy=True))
     bvn = db.Column(db.String(30), nullable=True)
@@ -126,7 +129,7 @@ class BVN(db.Model):
 
 class Bio(db.Model):
     __tablename__ = 'bios'
-    id = db.Column(db.String(30), uuid4().hex, primary_key=True, nullable=False)
+    id = db.Column(db.String(30), primary_key=True, default=get_uuid, nullable=False)
     user_id = db.Column(db.String(32), db.ForeignKey('users.id'), nullable=False)
     user = db.relationship('User', backref=db.backref('bios', lazy=True))
     fingerprint = db.Column(db.String(300), nullable=True)
