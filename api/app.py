@@ -1,6 +1,10 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from engines.models.model import db
+from engines.models.account import db as account_db
+from engines.models.chats import db as chats_db
+from engines.models.notifications import db as notif_db
+from engines.models.borrower import db as borrow_db
 from flask_cors import (CORS, cross_origin)
 from flask_jwt_extended import JWTManager
 from flask_migrate import Migrate
@@ -15,8 +19,6 @@ def create_app() -> Flask:
     """
     app = Flask(__name__)
 
-    CORS(app, resources={r"/api/*": {"origins": "*"}})
-
     # Database Configuration
     app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://dev_test:DevLog#1@localhost/iwallet_fcmb_db'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -30,6 +32,10 @@ def create_app() -> Flask:
 
     # Migrate App
     migrate = Migrate(app, db)
+
+    # Register All Models
+    model_files = [db, borrow_db, chats_db, account_db, notif_db]
+    # db.init_app(app, model_files=model_files)
 
     # Initialize the database
     db.init_app(app)
@@ -67,6 +73,13 @@ def create_app() -> Flask:
     app.register_blueprint(faq_bp, url_prefix='/faq')
     app.register_blueprint(support_bp, url_prefix='/support')
     app.register_blueprint(notifications_bp, url_prefix='/notifications')
+
+
+    # CORS Origin Layout For Future Use
+    # CORS(app, resources={r"/*": {"origins": "*"}})
+    # CORS(app, resources={r"/dispute": {"origins": "*"},
+    #     r"auth_bp/*": "origins": "["auth/unauthorized", "auth/bad-request", "auth/forbidden"]"
+    #     })
 
     return app
 

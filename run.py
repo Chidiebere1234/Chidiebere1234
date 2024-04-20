@@ -89,7 +89,7 @@ def server_error(error) -> str:
 #     """ This function runs before any request is made
 #         to the API Application
 #     """
-#     reqs = ['/api/auth/status/', '/api/auth/unauthorized/', '/api/auth/forbidden/']
+#     reqs = ['/auth/status/', '/auth/unauthorized/', '/auth/forbidden/']
 #     if auth is None:
 #         return
 #     for url in reqs:
