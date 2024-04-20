@@ -6,7 +6,7 @@ from uuid import uuid4
 # Dispute model
 class Dispute(db.Model):
     __tablename__ = 'disputes'
-    id = db.Column(db.Integer, primary_key=True, unique=True, nullable=False)
+    id = db.Column(db.String(30), uuid4().hex, primary_key=True, nullable=False)
     user_id = db.Column(db.String(32), db.ForeignKey('users.id'), nullable=False)
     user = db.relationship('User', backref=db.backref('disputes', lazy=True))
     category = db.Column(db.String(100), nullable=True)
