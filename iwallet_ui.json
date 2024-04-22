@@ -21,7 +21,7 @@
       "description": "Everything you need for i-wallet",
       "externalDocs": {
         "description": "Find out more",
-        "url": "http://127.0.0.1:5005/more-info" // "http://api.iwallet.com/more-info"
+        "url": "http://127.0.0.1:5005/more-info", // "http://api.iwallet.com/more-info"
       }
     },
     {

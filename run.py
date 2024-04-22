@@ -42,15 +42,12 @@ def file_loader():
         with open(spec_file_path, 'r') as f:
             spec_data = f.read()
 
-        # Return the JSON data as the response
-        return jsonify(json.loads(spec_data)), 200  # Assuming valid JSON format
+        return jsonify(json.loads(spec_data)), 200
 
     except FileNotFoundError:
-        # Handle the case where the file is not found
-        return jsonify({'error': 'Spec file not found'}), 404
+        return jsonify({'error': 'UI Json file not found'}), 404
 
     except Exception as e:
-        # Handle other potential errors during file access
         return jsonify({'error': f'An error occurred: {str(e)}'}), 500
 
 # 200 Okay
