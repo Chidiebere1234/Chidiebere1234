@@ -55,15 +55,15 @@ def create_app() -> Flask:
 
     SWAGGER_URL = '/api/docs'  # URL for exposing Swagger UI (without trailing '/')
     # API_URL = 'http://petstore.swagger.io/v2/swagger.json'  # Our API url (can of course be a local resource)
-    API_URL = 'http://127.0.0.1:5005'
+    # API_URL = 'http://127.0.0.1:5005/file/iwallet_ui.json'
 
     # Doc: https://pypi.org/project/flask-swagger-ui/
     # Call factory function to create our blueprint
     swaggerui_blueprint = get_swaggerui_blueprint(
         SWAGGER_URL,  # Swagger UI static files will be mapped to '{SWAGGER_URL}/dist/'
-        API_URL,
+        # API_URL,
         config={  # Swagger UI config overrides
-            'app_name': "I Wallet"
+            'app_name': "I Wallet API"
         },
         # oauth_config={  # OAuth config. See https://github.com/swagger-api/swagger-ui#oauth2-configuration .
         #    'clientId': "your-client-id",
@@ -93,7 +93,7 @@ def create_app() -> Flask:
 
     # Register blueprints
     # Register Swagger Bluprint
-    app.register_blueprint(swaggerui_blueprint)
+    app.register_blueprint(swaggerui_blueprint, url_prefix=SWAGGER_URL)
 
     # Application Blueprints
     app.register_blueprint(loan_bp, url_prefix='/loan')

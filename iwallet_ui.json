@@ -1,0 +1,43 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "This is I-Wallet App API. A Json Web Token will be required to access any secure endpoint",
+    "version": "1.0.7",
+    "title": "I-Wallet API Doc",
+    "termsOfService": "http://127.0.0.1:5005/terms", // "http://api.iwallet.com/terms/",
+    "contact": {
+      "email": "abodunrinsulaimon1@gmailcom.com"
+    },
+    "license": {
+      "name": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    }
+  },
+  "host": "127.0.0.1:5005",
+  "basePath": "/v2",
+  "tags": [
+    {
+      "name": "Banking API",
+      "description": "Everything you need for i-wallet",
+      "externalDocs": {
+        "description": "Find out more",
+        "url": "http://127.0.0.1:5005/more-info" // "http://api.iwallet.com/more-info"
+      }
+    },
+    {
+      "name": "I-Wallet API",
+      "description": "Access to I-Wallet API"
+    },
+    {
+      "name": "user",
+      "description": "Operations about user",
+      "externalDocs": {
+        "description": "Find out more about our store",
+        "url": "http://127.0.0.1:5005"
+      }
+    }
+  ],
+  "schemes": [
+    "https",
+    "http"
+  ],

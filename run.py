@@ -32,6 +32,11 @@ def stats() -> str:
     stats = {}
     return jsonify(stats)
 
+
+@app.route('/file/<str:>', strict_slashes=False)
+def file_loader(file):
+    pass
+
 # 200 Okay
 # 201 Created
 
