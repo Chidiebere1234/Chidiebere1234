@@ -1,13 +1,15 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from engines.models.model import db
-from engines.models.account import db as account_db
 from engines.models.chats import db as chats_db
-from engines.models.notification import db as notif_db
+from engines.models.account import db as account_db
 from engines.models.borrower import db as borrow_db
+from engines.models.notification import db as notif_db
+from flask_swagger_ui import get_swaggerui_blueprint
 from flask_cors import (CORS, cross_origin)
 from flask_jwt_extended import JWTManager
 from flask_migrate import Migrate
+
 
 
 def create_app() -> Flask:
@@ -18,6 +20,13 @@ def create_app() -> Flask:
         Flask: The configured Flask application.
     """
     app = Flask(__name__)
+
+
+    # CORS Origin Layout For Future Use [To be Implimented later]
+    CORS(app, resources={r"/*": {"origins": "*"}})
+    # CORS(app, resources={r"/dispute": {"origins": "*"},
+    #     r"auth_bp/*": "origins": "["auth/unauthorized", "auth/bad-request", "auth/forbidden"]"
+    #     })
 
     # Database Configuration
     app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://dev_test:DevLog#1@localhost/iwallet_fcmb_db'
@@ -44,6 +53,27 @@ def create_app() -> Flask:
         db.create_all()
         print("Database initialized.")
 
+    SWAGGER_URL = '/api/docs'  # URL for exposing Swagger UI (without trailing '/')
+    API_URL = 'http://petstore.swagger.io/v2/swagger.json'  # Our API url (can of course be a local resource)
+
+    # Call factory function to create our blueprint
+    swaggerui_blueprint = get_swaggerui_blueprint(
+        SWAGGER_URL,  # Swagger UI static files will be mapped to '{SWAGGER_URL}/dist/'
+        API_URL,
+        config={  # Swagger UI config overrides
+            'app_name': "I Wallet"
+        },
+        # oauth_config={  # OAuth config. See https://github.com/swagger-api/swagger-ui#oauth2-configuration .
+        #    'clientId': "your-client-id",
+        #    'clientSecret': "your-client-secret-if-required",
+        #    'realm': "your-realms",
+        #    'appName': "your-app-name",
+        #    'scopeSeparator': " ",
+        #    'additionalQueryStringParams': {'test': "hello"}
+        # }
+    )
+
+
     # Import and register blueprints for each feature
     from .routes.loan import loan_bp
     from .routes.messaging import messaging_bp
@@ -60,6 +90,10 @@ def create_app() -> Flask:
     from .routes.notifications import notifications_bp
 
     # Register blueprints
+    # Register Swagger Bluprint
+    app.register_blueprint(swaggerui_blueprint)
+
+    # Application Blueprints
     app.register_blueprint(loan_bp, url_prefix='/loan')
     app.register_blueprint(messaging_bp, url_prefix='/messaging')
     app.register_blueprint(feedback_bp, url_prefix='/feedback')
@@ -74,12 +108,6 @@ def create_app() -> Flask:
     app.register_blueprint(support_bp, url_prefix='/support')
     app.register_blueprint(notifications_bp, url_prefix='/notifications')
 
-
-    # CORS Origin Layout For Future Use
-    # CORS(app, resources={r"/*": {"origins": "*"}})
-    # CORS(app, resources={r"/dispute": {"origins": "*"},
-    #     r"auth_bp/*": "origins": "["auth/unauthorized", "auth/bad-request", "auth/forbidden"]"
-    #     })
 
     return app
 
