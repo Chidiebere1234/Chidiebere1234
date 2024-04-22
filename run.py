@@ -33,9 +33,25 @@ def stats() -> str:
     return jsonify(stats)
 
 
-@app.route('/file/<str:>', strict_slashes=False)
-def file_loader(file):
-    pass
+@app.route('/file/iwallet_ui.json', strict_slashes=False)
+def file_loader():
+    spec_file_path = 'iwallet_ui.json'
+
+    try:
+        # Open the JSON file and read its contents
+        with open(spec_file_path, 'r') as f:
+            spec_data = f.read()
+
+        # Return the JSON data as the response
+        return jsonify(json.loads(spec_data)), 200  # Assuming valid JSON format
+
+    except FileNotFoundError:
+        # Handle the case where the file is not found
+        return jsonify({'error': 'Spec file not found'}), 404
+
+    except Exception as e:
+        # Handle other potential errors during file access
+        return jsonify({'error': f'An error occurred: {str(e)}'}), 500
 
 # 200 Okay
 # 201 Created
