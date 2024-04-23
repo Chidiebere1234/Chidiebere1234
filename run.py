@@ -42,7 +42,6 @@ def file_loader():
         # Open the JSON file and read its contents
         with open(spec_file_path, 'r') as f:
             spec_data = f.read()
-            print(spec_data)
 
         return jsonify(json.loads(spec_data)), 200
 
