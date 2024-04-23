@@ -20,24 +20,41 @@
       "url": "https://127.0.0.1:5005/api/v1"
     }
   ],
+  "basePath": "/",
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "securityDefinitions": {
+    "Basic": {
+      "type": "basic"
+    }
+  },
+  "security": [
+    {
+      "Basic": []
+    }
+  ],
   "tags": [
     {
-      "name": "Banking API",
-      "description": "Everything you need for i-wallet",
+      "name": "Iwallet Banking API",
+      "description": "Everything you need for Iwallet",
       "externalDocs": {
         "description": "Find out more",
         "url": "http://127.0.0.1:5005/more-info"
       }
     },
     {
-      "name": "I-Wallet API",
-      "description": "Access to I-Wallet API"
+      "name": "Iwallet API",
+      "description": "Access to Iwallet API"
     },
     {
       "name": "user",
       "description": "Operations about user",
       "externalDocs": {
-        "description": "Find out more about our store",
+        "description": "Find out more...",
         "url": "http://127.0.0.1:5005"
       }
     }

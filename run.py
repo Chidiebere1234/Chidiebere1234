@@ -55,7 +55,7 @@ def file_loader():
 
 @app.route('/more-info', strict_slashes=False)
 def more_info():
-    info_data = 'aengines/file_database/api_info.json'
+    info_data = 'engines/file_database/api_info.json'
 
     try:
         with open(info_data, 'r') as f:
