@@ -191,16 +191,16 @@ class Wallet(db.Model):
 # Transaction History
 class Transaction(db.Model):
     __tablename__ = 'transactions'
-    id = db.Column(db.String(30), primary_key=True, default=get_uuid, nullable=False)
+    id = db.Column(db.String(32), primary_key=True, default=get_uuid, nullable=False)
     amount = db.Column(db.Float, nullable=False)
     user_id = db.Column(db.String(32), db.ForeignKey('users.id'), nullable=False)
     user = db.relationship('User', backref=db.backref('transactions', lazy=True))
-    transaction_id = db.Column(uuid4().hex, nullable=False)
+    transaction_id = db.Column(db.String(32), default=get_uuid, nullable=False)
     timestamp = db.Column(db.DateTime, default=datetime.utcnow)
     sender_account_id = db.Column(db.String(32), db.ForeignKey('wallets.id'))
     recipient_account_id = db.Column(db.String(32), db.ForeignKey('wallets.id'))
-    transaction_type = db.Column(db.String(50), nullable=True)
-    description = db.Column(db.String(255), nullable=True)
+    transaction_type = db.Column(db.String(128), nullable=True)
+    description = db.Column(db.String(950), nullable=True)
     status = db.Column(db.Enum('Complete', 'Declined', 'Pending', 'Under review'), nullable=True)
     created_at = db.Column(db.DateTime, default=db.func.current_timestamp())
     updated_at = db.Column(db.DateTime, default=db.func.current_timestamp(), onupdate=db.func.current_timestamp())
