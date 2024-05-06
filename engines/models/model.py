@@ -101,7 +101,16 @@ class UserImage(db.Model):
     created_at = db.Column(db.DateTime, default=db.func.current_timestamp())
     updated_at = db.Column(db.DateTime, default=db.func.current_timestamp(), onupdate=db.func.current_timestamp())
 
+    def save(self):
+        db.session.add(self)
+        db.session.commit()
 
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()
+
+
+# BVN Model 
 class BVN(db.Model):
     __tablename__ = 'bvn'
     id = db.Column(db.String(30), primary_key=True, default=get_uuid, nullable=False)
@@ -125,6 +134,7 @@ class BVN(db.Model):
         db.session.commit()
 
 
+# Bio Model
 class Bio(db.Model):
     __tablename__ = 'bios'
     id = db.Column(db.String(30), primary_key=True, default=get_uuid, nullable=False)
@@ -147,3 +157,135 @@ class Bio(db.Model):
         """
         db.session.delete(self)
         db.session.commit()
+
+
+# Wallet Model
+class Wallet(db.Model):
+    __tablename__ = 'wallets'
+    id = db.Column(db.String(30), primary_key=True, default=get_uuid, nullable=False)
+    user_id = db.Column(db.String(32), db.ForeignKey('users.id'), nullable=False)
+    user = db.relationship('User', backref=db.backref('wallets', lazy=True))
+    account_number = db.Column(db.String(20), unique=True, nullable=False)
+    account_type = db.Column(db.String(50), nullable=False)
+    balance = db.Column(db.Numeric(precision=10, scale=2), default=0.0)
+    created_at = db.Column(db.DateTime, default=db.func.current_timestamp())
+    updated_at = db.Column(db.DateTime, default=db.func.current_timestamp(), onupdate=db.func.current_timestamp())
+
+    def __init__(self, **kwargs):
+        for key, value in kwargs.items():
+            setattr(self, key, value)
+
+
+    def deposit(self, amount):
+        pass
+
+
+    def withdraw(self, amount):
+        pass
+
+
+    def __repr__(self):
+        return f"<Account {self.account_number}>"
+
+
+# Transaction History
+class Transaction(db.Model):
+    __tablename__ = 'transactions'
+    id = db.Column(db.String(30), primary_key=True, default=get_uuid, nullable=False)
+    amount = db.Column(db.Float, nullable=False)
+    user_id = db.Column(db.String(32), db.ForeignKey('users.id'), nullable=False)
+    user = db.relationship('User', backref=db.backref('transactions', lazy=True))
+    transaction_id = db.Column(uuid4().hex, nullable=False)
+    timestamp = db.Column(db.DateTime, default=datetime.utcnow)
+    sender_account_id = db.Column(db.String(32), db.ForeignKey('wallets.id'))
+    recipient_account_id = db.Column(db.String(32), db.ForeignKey('wallets.id'))
+    transaction_type = db.Column(db.String(50), nullable=True)
+    description = db.Column(db.String(255), nullable=True)
+    status = db.Column(db.Enum('Complete', 'Declined', 'Pending', 'Under review'), nullable=True)
+    created_at = db.Column(db.DateTime, default=db.func.current_timestamp())
+    updated_at = db.Column(db.DateTime, default=db.func.current_timestamp(), onupdate=db.func.current_timestamp())
+
+
+    def __repr__(self):
+        return f'<Transaction {self.id} - {self.user_id}>'
+
+
+# Loan model
+class Loan(db.Model):
+    __tablename__ = 'loans'
+    id = db.Column(db.String(30), primary_key=True, default=get_uuid, nullable=False)
+    user_id = db.Column(db.String(32), db.ForeignKey('users.id'), nullable=False)
+    user = db.relationship('User', backref=db.backref('loans', lazy=True))
+    amount = db.Column(db.Float, nullable=False)
+    term = db.Column(db.Integer, nullable=False) # Adjust later
+    rate = db.Column(db.Float, nullable=False) # Adjust later
+    approved = db.Column(db.Boolean, default=False)
+    date_applied = db.Column(db.DateTime, default=datetime.utcnow)
+    created_at = db.Column(db.DateTime, default=db.func.current_timestamp())
+    updated_at = db.Column(db.DateTime, default=db.func.current_timestamp(), onupdate=db.func.current_timestamp())
+
+    def __repr__(self):
+        return f'<Loan by: {self.borrower.first_name}>'
+
+
+# Loan Payment model
+class LoanPayment(db.Model):
+    __tablename__ = 'loan_payments'
+    id = db.Column(db.String(30), primary_key=True, default=get_uuid, nullable=False)
+    user_id = db.Column(db.String(32), db.ForeignKey('users.id'), nullable=False)
+    user = db.relationship('User', backref=db.backref('loan_payments', lazy=True))
+    loan_id = db.Column(db.ForeignKey('loans.id'), nullable=False)
+    amount = db.Column(db.ForeignKey('loans.amount'), nullable=False) #pay attention to this
+    amount_paid = db.Column(db.Float, nullable=False) # This will hold the ammount paid per day, week or month which can be deducted from the loan
+    created_at = db.Column(db.DateTime, default=db.func.current_timestamp())
+    updated_at = db.Column(db.DateTime, default=db.func.current_timestamp(), onupdate=db.func.current_timestamp())
+
+    def __repr__(self):
+        return f"Loan Payment id: {self.id}"
+
+
+# Lender model
+class Lender(db.Model):
+    __tablename__ = 'lenders'
+    id = db.Column(db.String(30), primary_key=True, default=get_uuid, nullable=False)
+    user_id = db.Column(db.String(32), db.ForeignKey('users.id'), nullable=False)
+    user = db.relationship('User', backref=db.backref('lenders', lazy=True))
+    name = db.Column(db.String(80), nullable=False)
+    available_funds = db.Column(db.Float, nullable=False)
+    preferred_rate = db.Column(db.Float, nullable=False)
+    max_loan_amount = db.Column(db.Float, nullable=False)
+    created_at = db.Column(db.DateTime, default=db.func.current_timestamp())
+    updated_at = db.Column(db.DateTime, default=db.func.current_timestamp(), onupdate=db.func.current_timestamp())
+
+    def __repr__(self):
+        return f'<Lender {self.id} - {self.name}>'
+
+
+# Notification model
+class Notification(db.Model):
+    __tablename__ = 'notifications'
+    id = db.Column(db.String(30), primary_key=True, default=get_uuid, nullable=False)
+    user_id = db.Column(db.String(32), db.ForeignKey('users.id'), nullable=False)
+    user = db.relationship('User', backref=db.backref('notifications', lazy=True))
+    allow_transaction_notifications = db.Column(db.Boolean, default=True)
+    allow_dispute_notifications = db.Column(db.Boolean, default=True)
+    created_at = db.Column(db.DateTime, default=db.func.current_timestamp())
+    updated_at = db.Column(db.DateTime, default=db.func.current_timestamp(), onupdate=db.func.current_timestamp())
+
+
+# Dispute model
+class Dispute(db.Model):
+    __tablename__ = 'disputes'
+    id = db.Column(db.String(30), primary_key=True, default=get_uuid, nullable=False)
+    user_id = db.Column(db.String(32), db.ForeignKey('users.id'), nullable=False)
+    user = db.relationship('User', backref=db.backref('disputes', lazy=True))
+    category = db.Column(db.String(100), nullable=True)
+    title = db.Column(db.String(200), nullable=False)
+    description = db.Column(db.Text, nullable=False)
+    status = db.Column(db.String(20), default='Pending')
+    created_at = db.Column(db.DateTime, default=db.func.current_timestamp())
+    updated_at = db.Column(db.DateTime, default=db.func.current_timestamp(), onupdate=db.func.current_timestamp())
+
+    def __repr__(self):
+        return f'<Dispute {self.id}>'
+

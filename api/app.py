@@ -96,19 +96,19 @@ def create_app() -> Flask:
     app.register_blueprint(swaggerui_blueprint, url_prefix=SWAGGER_URL)
 
     # Application Blueprints
-    app.register_blueprint(loan_bp, url_prefix='/loan')
-    app.register_blueprint(messaging_bp, url_prefix='/messaging')
-    app.register_blueprint(feedback_bp, url_prefix='/feedback')
-    app.register_blueprint(referral_bp, url_prefix='/referral')
-    app.register_blueprint(location_bp, url_prefix='/location')
-    app.register_blueprint(auth_bp, url_prefix='/auth')
-    app.register_blueprint(dispute_bp, url_prefix='/dispute')
-    app.register_blueprint(review_bp, url_prefix='/review')
-    app.register_blueprint(transaction_bp, url_prefix='/transaction')
-    app.register_blueprint(chatbot_bp, url_prefix='/chatbot')
-    app.register_blueprint(faq_bp, url_prefix='/faq')
-    app.register_blueprint(support_bp, url_prefix='/support')
-    app.register_blueprint(notifications_bp, url_prefix='/notifications')
+    app.register_blueprint(loan_bp, url_prefix='/api/loan')
+    app.register_blueprint(messaging_bp, url_prefix='/api/messaging')
+    app.register_blueprint(feedback_bp, url_prefix='/api/feedback')
+    app.register_blueprint(referral_bp, url_prefix='/api/referral')
+    app.register_blueprint(location_bp, url_prefix='/api/location')
+    app.register_blueprint(auth_bp, url_prefix='/api/auth')
+    app.register_blueprint(dispute_bp, url_prefix='/api/dispute')
+    app.register_blueprint(review_bp, url_prefix='/api/review')
+    app.register_blueprint(transaction_bp, url_prefix='/api/transaction')
+    app.register_blueprint(chatbot_bp, url_prefix='/api/chatbot')
+    app.register_blueprint(faq_bp, url_prefix='/api/faq')
+    app.register_blueprint(support_bp, url_prefix='/api/support')
+    app.register_blueprint(notifications_bp, url_prefix='/api/notifications')
 
 
     return app
