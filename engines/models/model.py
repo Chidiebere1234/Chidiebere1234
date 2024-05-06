@@ -137,7 +137,7 @@ class BVN(db.Model):
 # Bio Model
 class Bio(db.Model):
     __tablename__ = 'bios'
-    id = db.Column(db.String(30), primary_key=True, default=get_uuid, nullable=False)
+    id = db.Column(db.String(32), primary_key=True, default=get_uuid, nullable=False)
     user_id = db.Column(db.String(32), db.ForeignKey('users.id'), nullable=False)
     user = db.relationship('User', backref=db.backref('bios', lazy=True))
     fingerprint = db.Column(db.String(300), nullable=True)
@@ -213,7 +213,7 @@ class Transaction(db.Model):
 # Loan model
 class Loan(db.Model):
     __tablename__ = 'loans'
-    id = db.Column(db.String(30), primary_key=True, default=get_uuid, nullable=False)
+    id = db.Column(db.String(32), primary_key=True, default=get_uuid, nullable=False)
     user_id = db.Column(db.String(32), db.ForeignKey('users.id'), nullable=False)
     user = db.relationship('User', backref=db.backref('loans', lazy=True))
     amount = db.Column(db.Float, nullable=False)
@@ -231,12 +231,15 @@ class Loan(db.Model):
 # Loan Payment model
 class LoanPayment(db.Model):
     __tablename__ = 'loan_payments'
-    id = db.Column(db.String(30), primary_key=True, default=get_uuid, nullable=False)
+    id = db.Column(db.String(32), primary_key=True, default=get_uuid, nullable=False)
     user_id = db.Column(db.String(32), db.ForeignKey('users.id'), nullable=False)
     user = db.relationship('User', backref=db.backref('loan_payments', lazy=True))
-    loan_id = db.Column(db.ForeignKey('loans.id'), nullable=False)
-    amount = db.Column(db.ForeignKey('loans.amount'), nullable=False) #pay attention to this
+    loan_id = db.Column(db.String(32), nullable=False)
+    amount = db.Column(db.String(32), nullable=False) #pay attention to this
     amount_paid = db.Column(db.Float, nullable=False) # This will hold the ammount paid per day, week or month which can be deducted from the loan
+    weekly_payment = db.Column(db.Boolean, default=False)
+    monthly_payment = db.Column(db.Boolean, default=False)
+    last_payment = db.Column(db.DateTime, default=datetime.utcnow)
     created_at = db.Column(db.DateTime, default=db.func.current_timestamp())
     updated_at = db.Column(db.DateTime, default=db.func.current_timestamp(), onupdate=db.func.current_timestamp())
 
@@ -247,7 +250,7 @@ class LoanPayment(db.Model):
 # Lender model
 class Lender(db.Model):
     __tablename__ = 'lenders'
-    id = db.Column(db.String(30), primary_key=True, default=get_uuid, nullable=False)
+    id = db.Column(db.String(32), primary_key=True, default=get_uuid, nullable=False)
     user_id = db.Column(db.String(32), db.ForeignKey('users.id'), nullable=False)
     user = db.relationship('User', backref=db.backref('lenders', lazy=True))
     name = db.Column(db.String(80), nullable=False)
@@ -288,4 +291,3 @@ class Dispute(db.Model):
 
     def __repr__(self):
         return f'<Dispute {self.id}>'
-
