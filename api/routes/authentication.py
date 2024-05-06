@@ -85,7 +85,7 @@ def protected():
     return jsonify(logged_in_as=current_user), 200
 
 
-@auth_bp.route("/refresh", methods=['POST'], strict_slashes=False)
+@auth_bp.route("/refresh", methods=['GET'], strict_slashes=False)
 @jwt_required()
 def refresh():
     current_user = get_jwt_identity()  # Get user ID from access token
