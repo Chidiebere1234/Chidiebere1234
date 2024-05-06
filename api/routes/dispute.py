@@ -1,7 +1,7 @@
 # app/routes/dispute.py
 from flask import Blueprint, request, jsonify
 from engines.models.model import Dispute
-from app import db
+from engines.models.model import db
 
 
 dispute_bp = Blueprint('dispute', __name__)
