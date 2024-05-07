@@ -32,24 +32,6 @@ def stats() -> str:
     stats = {}
     return jsonify(stats)
 
-
-@app.route('/file/iwallet_ui.json', strict_slashes=False)
-def file_loader():
-    spec_file_path = 'iwallet_ui.json'
-
-    try:
-        # Open the JSON file and read its contents
-        with open(spec_file_path, 'r') as f:
-            spec_data = f.read()
-
-        return jsonify(json.loads(spec_data)), 200
-
-    except FileNotFoundError:
-        return jsonify({'error': 'UI Json file not found'}), 404
-
-    except Exception as e:
-        return jsonify({'error': f'An error occurred: {str(e)}'}), 500
-
 # 200 Okay
 # 201 Created
 
@@ -100,6 +82,24 @@ def server_error(error) -> str:
     """ Internal Server Error Handler
     """
     return jsonify({"error": "Internal Server Error"}), 500
+
+
+@app.route('/file/iwallet_ui.json', strict_slashes=False)
+def file_loader():
+    spec_file_path = 'iwallet_ui.json'
+
+    try:
+        # Open the JSON file and read its contents
+        with open(spec_file_path, 'r') as f:
+            spec_data = f.read()
+
+        return jsonify(json.loads(spec_data)), 200
+
+    except FileNotFoundError:
+        return jsonify({'error': 'UI Json file not found'}), 404
+
+    except Exception as e:
+        return jsonify({'error': f'An error occurred: {str(e)}'}), 500
 
 
 # @app.before_request
