@@ -41,17 +41,17 @@ def bad_request() -> str:
 
 @auth_bp.route("/signup", methods=['POST'], strict_slashes=False)
 def signup():
-    username = request.json.get('username')
+    email = request.json.get('email')
     password = request.json.get('password')
 
-    if not username or not password:
-        return jsonify({'error': 'Missing username or password'}), 400
+    if not email or not password:
+        return jsonify({'error': 'Missing email or password'}), 400
 
-    user = User.query.filter_by(username=username).first()
+    user = User.query.filter_by(email=email).first()
     if user:
-        return jsonify({'error': 'Username already exists'}), 400
+        return jsonify({'error': 'User with this email already exists'}), 400
 
-    user = User(username=username)
+    user = User(email=email)
     user.set_password(password)
     user.save()
 
@@ -60,15 +60,15 @@ def signup():
 
 @auth_bp.route("/login", methods=['POST'], strict_slashes=False)
 def login():
-    username = request.json.get('username')
+    email = request.json.get('email')
     password = request.json.get('password')
 
-    if not username or not password:
-        return jsonify({'error': 'Missing username or password'}), 400
+    if not email or not password:
+        return jsonify({'error': 'Missing email or password'}), 400
 
-    user = User.query.filter_by(username=username).first()
+    user = User.query.filter_by(email=email).first()
     if not user or not user.check_password(password): #check_password_hash(user.password_hash, password):
-        return jsonify({'error': 'Invalid username or password'}), 401
+        return jsonify({'error': 'Invalid email or password'}), 401
 
     # Create access token
     access_token = create_access_token(identity=user.id)
