@@ -17,7 +17,7 @@ def get_uuid():
 # User model for authentication
 class User(db.Model):
     __tablename__ = 'users'
-    id = db.Column(db.String(30), primary_key=True, default=get_uuid, nullable=False)
+    id = db.Column(db.String(32), primary_key=True, default=get_uuid, nullable=False)
     first_name = db.Column(db.String(128), nullable=True)
     last_name = db.Column(db.String(128), nullable=True)
     other_name = db.Column(db.String(128), nullable=True)
@@ -71,7 +71,7 @@ class User(db.Model):
 class UserRole(db.Model):
     __tablename__ = 'user_role'
     # __table_args__ = (db.UniqueConstraint('user_id', 'role', name='unique_user_role')) Error: This has to be tuple()
-    id = db.Column(db.String(30), primary_key=True, default=get_uuid, nullable=False)
+    id = db.Column(db.String(32), primary_key=True, default=get_uuid, nullable=False)
     user_id = db.Column(db.String(32), db.ForeignKey('users.id'), nullable=False)
     user = db.relationship('User', backref=db.backref('roles', lazy=True))
     role = db.Column(db.String(128), nullable=False)
@@ -94,7 +94,7 @@ class UserRole(db.Model):
 
 class UserImage(db.Model):
     __tablename__ = 'user_image'
-    id = db.Column(db.String(30), primary_key=True, default=get_uuid, nullable=False)
+    id = db.Column(db.String(32), primary_key=True, default=get_uuid, nullable=False)
     user_id = db.Column(db.String(32), db.ForeignKey('users.id'), nullable=False)
     user = db.relationship('User', backref=db.backref('images', lazy=True))
     image_url = db.Column(db.String(2048), nullable=True)
@@ -113,10 +113,10 @@ class UserImage(db.Model):
 # BVN Model 
 class BVN(db.Model):
     __tablename__ = 'bvn'
-    id = db.Column(db.String(30), primary_key=True, default=get_uuid, nullable=False)
+    id = db.Column(db.String(32), primary_key=True, default=get_uuid, nullable=False)
     user_id = db.Column(db.String(32), db.ForeignKey('users.id'), nullable=False)
     user = db.relationship('User', backref=db.backref('bvn', lazy=True))
-    bvn = db.Column(db.String(30), nullable=True)
+    bvn = db.Column(db.String(32), nullable=True)
     created_at = db.Column(db.DateTime, default=db.func.current_timestamp())
     updated_at = db.Column(db.DateTime, default=db.func.current_timestamp(), onupdate=db.func.current_timestamp())
 
@@ -162,7 +162,7 @@ class Bio(db.Model):
 # Wallet Model
 class Wallet(db.Model):
     __tablename__ = 'wallets'
-    id = db.Column(db.String(30), primary_key=True, default=get_uuid, nullable=False)
+    id = db.Column(db.String(32), primary_key=True, default=get_uuid, nullable=False)
     user_id = db.Column(db.String(32), db.ForeignKey('users.id'), nullable=False)
     user = db.relationship('User', backref=db.backref('wallets', lazy=True))
     account_number = db.Column(db.String(20), unique=True, nullable=False)
@@ -267,7 +267,7 @@ class Lender(db.Model):
 # Notification model
 class Notification(db.Model):
     __tablename__ = 'notifications'
-    id = db.Column(db.String(30), primary_key=True, default=get_uuid, nullable=False)
+    id = db.Column(db.String(32), primary_key=True, default=get_uuid, nullable=False)
     user_id = db.Column(db.String(32), db.ForeignKey('users.id'), nullable=False)
     user = db.relationship('User', backref=db.backref('notifications', lazy=True))
     allow_transaction_notifications = db.Column(db.Boolean, default=True)
@@ -279,7 +279,7 @@ class Notification(db.Model):
 # Dispute model
 class Dispute(db.Model):
     __tablename__ = 'disputes'
-    id = db.Column(db.String(30), primary_key=True, default=get_uuid, nullable=False)
+    id = db.Column(db.String(32), primary_key=True, default=get_uuid, nullable=False)
     user_id = db.Column(db.String(32), db.ForeignKey('users.id'), nullable=False)
     user = db.relationship('User', backref=db.backref('disputes', lazy=True))
     category = db.Column(db.String(100), nullable=True)
