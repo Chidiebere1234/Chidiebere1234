@@ -6,7 +6,7 @@ from engines.models.model import db
 
 dispute_bp = Blueprint('dispute', __name__)
 
-dispute_bp.strict_slashes=False
+dispute_bp.strict_slashes=False # Will this work?
 
 
 @dispute_bp.route('/create_dispute', methods=['POST'])
