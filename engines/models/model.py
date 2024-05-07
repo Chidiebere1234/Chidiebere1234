@@ -23,7 +23,7 @@ class User(db.Model):
     other_name = db.Column(db.String(128), nullable=True)
     username = db.Column(db.String(128), unique=True, nullable=True)
     email = db.Column(db.String(128), unique=True, nullable=False)
-    password = db.Column(db.String(128), nullable=False)
+    password_hash = db.Column(db.String(128), nullable=False)
     phone = db.Column(db.String(20), nullable=True)
     address = db.Column(db.String(255), nullable=True)
     balance = db.Column(db.Float, default='0.0')
