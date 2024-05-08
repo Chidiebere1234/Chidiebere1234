@@ -66,7 +66,7 @@ class User(db.Model):
         """
         db.session.commit()
 
-    def delete(self):
+    def _delete(self):
         """ This method will delete user data from database
         """
         db.session.delete(self)
@@ -94,7 +94,7 @@ class UserRole(db.Model):
         """
         db.session.commit()
 
-    def delete(self):
+    def _delete(self):
         """ This method will delete user data from database
         """
         db.session.delete(self)
@@ -121,7 +121,7 @@ class UserImage(db.Model):
         """
         db.session.commit()
 
-    def delete(self):
+    def _delete(self):
         """ This method will delete user data from database
         """
         db.session.delete(self)
@@ -149,7 +149,7 @@ class BVN(db.Model):
         """
         db.session.commit()
 
-    def delete(self):
+    def _delete(self):
         """ This method will delete user data from database
         """
         db.session.delete(self)
@@ -178,7 +178,7 @@ class Bio(db.Model):
         """
         db.session.commit()
 
-    def delete(self):
+    def _delete(self):
         """ This method will delete user data from database
         """
         db.session.delete(self)
@@ -225,7 +225,7 @@ class Wallet(db.Model):
         """
         db.session.commit()
 
-    def delete(self):
+    def _delete(self):
         """ This method will delete user data from database
         """
         db.session.delete(self)
@@ -265,7 +265,7 @@ class Transaction(db.Model):
         """
         db.session.commit()
 
-    def delete(self):
+    def _delete(self):
         """ This method will delete user data from database
         """
         db.session.delete(self)
@@ -301,7 +301,7 @@ class Loan(db.Model):
         """
         db.session.commit()
 
-    def delete(self):
+    def _delete(self):
         """ This method will delete user data from database
         """
         db.session.delete(self)
@@ -337,7 +337,7 @@ class LoanPayment(db.Model):
         """
         db.session.commit()
 
-    def delete(self):
+    def _delete(self):
         """ This method will delete user data from database
         """
         db.session.delete(self)
@@ -371,7 +371,7 @@ class Lender(db.Model):
         """
         db.session.commit()
 
-    def delete(self):
+    def _delete(self):
         """ This method will delete user data from database
         """
         db.session.delete(self)
@@ -400,7 +400,7 @@ class Notification(db.Model):
         """
         db.session.commit()
 
-    def delete(self):
+    def _delete(self):
         """ This method will delete user data from database
         """
         db.session.delete(self)
@@ -434,7 +434,7 @@ class Dispute(db.Model):
         """
         db.session.commit()
 
-    def delete(self):
+    def _delete(self):
         """ This method will delete user data from database
         """
         db.session.delete(self)

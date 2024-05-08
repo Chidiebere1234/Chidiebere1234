@@ -53,7 +53,6 @@ def update_dispute(id):
 @jwt_required()
 def delete_dispute(id):
 	dispute = Dispute.query.get_or_404(id)
-	db.session.delete(dispute)
-	db.session.commit()
+	dispute._delete()
 
 	return jsonify({"message": "Dispute deleted successfully"}), 200
