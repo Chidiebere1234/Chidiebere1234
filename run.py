@@ -5,6 +5,7 @@ from flask_cors import (CORS, cross_origin)
 from flask_jwt_extended import JWTManager
 from api.app import create_app
 from os import getenv
+import json
 import os
 
 
@@ -33,9 +34,9 @@ def stats() -> str:
     return jsonify(stats)
 
 
-@app.route('/file/iwallet_ui.json', strict_slashes=False)
+@app.route('/file/iwallet_ui', strict_slashes=False)
 def file_loader():
-    spec_file_path = 'iwallet_ui.json'
+    spec_file_path = 'engines/file_database/iwallet_ui.json'
 
     try:
         # Open the JSON file and read its contents
@@ -43,6 +44,41 @@ def file_loader():
             spec_data = f.read()
 
         return jsonify(json.loads(spec_data)), 200
+
+    except FileNotFoundError:
+        return jsonify({'error': 'UI Json file not found'}), 404
+
+    except Exception as e:
+        return jsonify({'error': f'An error occurred: {str(e)}'}), 500
+
+
+@app.route('/more-info', strict_slashes=False)
+def more_info():
+    info_data = 'engines/file_database/api_info.json'
+
+    try:
+        with open(info_data, 'r') as f:
+            data = f.read()
+
+        return jsonify(json.loads(data)), 200
+
+
+    except FileNotFoundError:
+        return jsonify({'error': 'Info file not found'}), 404
+
+    except Exception as e:
+        return jsonify({'error': f'An error occurred: {str(e)}'}), 500
+
+
+@app.route('/terms', strict_slashes=False)
+def api_terms():
+    terms_data = 'engines/file_database/api_terms.json'
+
+    try:
+        with open(terms_data, 'r') as f:
+            data = f.read()
+
+        return jsonify(json.loads(data)), 200
 
     except FileNotFoundError:
         return jsonify({'error': 'UI Json file not found'}), 404
@@ -92,7 +128,7 @@ def forbidden(error) -> str:
 def not_found(error) -> str:
     """ Not found Handler
     """
-    return jsonify({"error": "Not found"}), 404
+    return jsonify({"error": "Request not found"}), 404
 
 
 @app.errorhandler(500)

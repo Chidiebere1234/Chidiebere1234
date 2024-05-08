@@ -31,11 +31,11 @@ def forbid() -> str:
 
 @auth_bp.route('/bad-request', strict_slashes=False)
 def bad_request() -> str:
-	""" GET /api/auth/bad-request
-	Return:
-		- If an unknown request and submitted
-	"""
-	return abort(400)
+    """ GET /api/auth/bad-request
+    Return:
+        - If an unknown request and submitted
+    """
+    return abort(400)
 
 
 @auth_bp.route("/signup", methods=['POST'], strict_slashes=False)
@@ -106,6 +106,7 @@ def login():
                 'status_code': 500
             }
         ), 500
+
 
 # Protect a route with jwt_required, which will kick out requests
 # without a valid JWT present.
