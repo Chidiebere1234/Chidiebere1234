@@ -128,7 +128,7 @@ def refresh():
     return jsonify({'refresh_token': new_token})
 
 
-@auth_bp.route("/who_am_i", methods=["GET"]) #To be renamed as profile later
+@auth_bp.route("/who_am_i", methods=["GET"], strict_slashes=False) #To be renamed as profile later
 @jwt_required()
 def get_current_user():
     current_user = get_jwt_identity()
