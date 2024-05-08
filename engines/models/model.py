@@ -61,6 +61,11 @@ class User(db.Model):
         db.session.add(self)
         db.session.commit()
 
+    def update(self):
+        """ This method will commit any new updates when called
+        """
+        db.session.commit()
+
     def delete(self):
         """ This method will delete user data from database
         """
@@ -84,6 +89,10 @@ class UserRole(db.Model):
         db.session.add(self)
         db.session.commit()
 
+    def update(self):
+        """ This method will commit any new updates when called
+        """
+        db.session.commit()
 
     def delete(self):
         """ This method will delete user data from database
@@ -102,10 +111,19 @@ class UserImage(db.Model):
     updated_at = db.Column(db.DateTime, default=db.func.current_timestamp(), onupdate=db.func.current_timestamp())
 
     def save(self):
+        """ This method will save user data to database
+        """
         db.session.add(self)
         db.session.commit()
 
+    def update(self):
+        """ This method will commit any new updates when called
+        """
+        db.session.commit()
+
     def delete(self):
+        """ This method will delete user data from database
+        """
         db.session.delete(self)
         db.session.commit()
 
@@ -126,6 +144,10 @@ class BVN(db.Model):
         db.session.add(self)
         db.session.commit()
 
+    def update(self):
+        """ This method will commit any new updates when called
+        """
+        db.session.commit()
 
     def delete(self):
         """ This method will delete user data from database
@@ -151,6 +173,10 @@ class Bio(db.Model):
         db.session.add(self)
         db.session.commit()
 
+    def update(self):
+        """ This method will commit any new updates when called
+        """
+        db.session.commit()
 
     def delete(self):
         """ This method will delete user data from database
@@ -188,6 +214,24 @@ class Wallet(db.Model):
         return f"<Account {self.account_number}>"
 
 
+    def save(self):
+        """ This method will save user data to database
+        """
+        db.session.add(self)
+        db.session.commit()
+
+    def update(self):
+        """ This method will commit any new updates when called
+        """
+        db.session.commit()
+
+    def delete(self):
+        """ This method will delete user data from database
+        """
+        db.session.delete(self)
+        db.session.commit()
+
+
 # Transaction History
 class Transaction(db.Model):
     __tablename__ = 'transactions'
@@ -210,6 +254,24 @@ class Transaction(db.Model):
         return f'<Transaction {self.id} - {self.user_id}>'
 
 
+    def save(self):
+        """ This method will save user data to database
+        """
+        db.session.add(self)
+        db.session.commit()
+
+    def update(self):
+        """ This method will commit any new updates when called
+        """
+        db.session.commit()
+
+    def delete(self):
+        """ This method will delete user data from database
+        """
+        db.session.delete(self)
+        db.session.commit()
+
+
 # Loan model
 class Loan(db.Model):
     __tablename__ = 'loans'
@@ -226,6 +288,24 @@ class Loan(db.Model):
 
     def __repr__(self):
         return f'<Loan by: {self.borrower.first_name}>'
+
+
+    def save(self):
+        """ This method will save user data to database
+        """
+        db.session.add(self)
+        db.session.commit()
+
+    def update(self):
+        """ This method will commit any new updates when called
+        """
+        db.session.commit()
+
+    def delete(self):
+        """ This method will delete user data from database
+        """
+        db.session.delete(self)
+        db.session.commit()
 
 
 # Loan Payment model
@@ -246,6 +326,23 @@ class LoanPayment(db.Model):
     def __repr__(self):
         return f"Loan Payment id: {self.id}"
 
+    def save(self):
+        """ This method will save user data to database
+        """
+        db.session.add(self)
+        db.session.commit()
+
+    def update(self):
+        """ This method will commit any new updates when called
+        """
+        db.session.commit()
+
+    def delete(self):
+        """ This method will delete user data from database
+        """
+        db.session.delete(self)
+        db.session.commit()
+
 
 # Lender model
 class Lender(db.Model):
@@ -263,6 +360,23 @@ class Lender(db.Model):
     def __repr__(self):
         return f'<Lender {self.id} - {self.name}>'
 
+    def save(self):
+        """ This method will save user data to database
+        """
+        db.session.add(self)
+        db.session.commit()
+
+    def update(self):
+        """ This method will commit any new updates when called
+        """
+        db.session.commit()
+
+    def delete(self):
+        """ This method will delete user data from database
+        """
+        db.session.delete(self)
+        db.session.commit()
+
 
 # Notification model
 class Notification(db.Model):
@@ -274,6 +388,23 @@ class Notification(db.Model):
     allow_dispute_notifications = db.Column(db.Boolean, default=True)
     created_at = db.Column(db.DateTime, default=db.func.current_timestamp())
     updated_at = db.Column(db.DateTime, default=db.func.current_timestamp(), onupdate=db.func.current_timestamp())
+
+    def save(self):
+        """ This method will save user data to database
+        """
+        db.session.add(self)
+        db.session.commit()
+
+    def update(self):
+        """ This method will commit any new updates when called
+        """
+        db.session.commit()
+
+    def delete(self):
+        """ This method will delete user data from database
+        """
+        db.session.delete(self)
+        db.session.commit()
 
 
 # Dispute model
@@ -291,3 +422,20 @@ class Dispute(db.Model):
 
     def __repr__(self):
         return f'<Dispute {self.id}>'
+
+    def save(self):
+        """ This method will save user data to database
+        """
+        db.session.add(self)
+        db.session.commit()
+
+    def update(self):
+        """ This method will commit any new updates when called
+        """
+        db.session.commit()
+
+    def delete(self):
+        """ This method will delete user data from database
+        """
+        db.session.delete(self)
+        db.session.commit()
